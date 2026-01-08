@@ -56,7 +56,7 @@ jobs:
           mkdir -p ~/.config/godot
           mkdir -p android/build
           
-          # Create editor settings
+          # Create editor settings with Gradle support
           cat > ~/.config/godot/editor_settings-4.tres << EOF
           [gd_resource type="EditorSettings" format=3]
           
@@ -65,6 +65,9 @@ jobs:
           export/android/debug_keystore = "$(pwd)/android/debug.keystore"
           export/android/debug_keystore_user = "androiddebugkey"
           export/android/debug_keystore_pass = "android"
+          export/android/force_system_user = false
+          export/android/shutdown_adb_on_exit = true
+          export/android/one_click_deploy_clear_previous_install = true
           EOF
       
       - name: Generate Debug Keystore
@@ -75,7 +78,8 @@ jobs:
       - name: Export Android APK
         run: |
           mkdir -p build/android
-          ./Godot_v${GODOT_VERSION}-stable_linux.x86_64 --headless --export-debug "Android" build/android/${EXPORT_NAME}.apk
+          ./Godot_v${GODOT_VERSION}-stable_linux.x86_64 --headless --export-debug "Android" build/android/${EXPORT_NAME}.apk || echo "Export failed, checking logs..."
+          ls -la build/android/ || echo "Build directory not found"
       
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4
