@@ -51,6 +51,22 @@ jobs:
           unzip Godot_v${GODOT_VERSION}-stable_export_templates.tpz
           mv templates/* ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
       
+      - name: Install Android Build Template
+        run: |
+          # Download and install Android build template
+          mkdir -p android/build
+          mkdir -p android/plugins
+          
+          # Extract Android build template from export templates
+          cd ~/.local/share/godot/export_templates/${GODOT_VERSION}.stable/
+          if [ -f "android_source.zip" ]; then
+            unzip -o android_source.zip -d $GITHUB_WORKSPACE/android/build/
+            echo "Android build template installed"
+          else
+            echo "Warning: android_source.zip not found in export templates"
+          fi
+          cd $GITHUB_WORKSPACE
+      
       - name: Setup Android Export Preset
         run: |
           mkdir -p ~/.config/godot
