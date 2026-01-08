@@ -75,11 +75,37 @@ jobs:
           mkdir -p android
           keytool -genkeypair -v -keystore android/debug.keystore -alias androiddebugkey -keyalg RSA -keysize 2048 -validity 10000 -storepass android -keypass android -dname "CN=Android Debug,O=Android,C=US"
       
+      - name: Verify Project Files
+        run: |
+          echo "=== Checking project structure ==="
+          ls -la
+          echo "=== Checking scenes ==="
+          ls -la scenes/ || echo "No scenes directory"
+          echo "=== Checking scripts ==="
+          ls -la scripts/ || echo "No scripts directory"
+          echo "=== Checking export preset ==="
+          cat export_presets.cfg
+          echo "=== Checking project.godot ==="
+          cat project.godot
+      
       - name: Export Android APK
         run: |
           mkdir -p build/android
-          ./Godot_v${GODOT_VERSION}-stable_linux.x86_64 --headless --export-debug "Android" build/android/${EXPORT_NAME}.apk || echo "Export failed, checking logs..."
+          echo "=== Starting export ==="
+          ./Godot_v${GODOT_VERSION}-stable_linux.x86_64 --headless --verbose --export-debug "Android" build/android/${EXPORT_NAME}.apk 2>&1 | tee export.log
+          echo "=== Export completed ==="
+          echo "=== Checking build output ==="
           ls -la build/android/ || echo "Build directory not found"
+          echo "=== Export log ==="
+          cat export.log || echo "No export log"
+      
+      - name: Upload Export Log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: export-log
+          path: export.log
+          retention-days: 7
       
       - name: Upload APK Artifact
         uses: actions/upload-artifact@v4

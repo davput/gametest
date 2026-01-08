@@ -40,7 +40,7 @@ func _on_host_pressed():
 		
 		# Start game
 		await get_tree().create_timer(1.0).timeout
-		get_tree().change_scene_to_file("res://scenes/world.tscn")
+		get_tree().change_scene_to_file("res://scenes/world_multiplayer.tscn")
 	else:
 		status_label.text = "Status: Failed to host"
 		status_label.add_theme_color_override("font_color", Color.RED)
@@ -64,7 +64,7 @@ func _on_join_pressed():
 		# Wait for connection
 		await get_tree().create_timer(2.0).timeout
 		if multiplayer.multiplayer_peer and multiplayer.multiplayer_peer.get_connection_status() == MultiplayerPeer.CONNECTION_CONNECTED:
-			get_tree().change_scene_to_file("res://scenes/world.tscn")
+			get_tree().change_scene_to_file("res://scenes/world_multiplayer.tscn")
 		else:
 			status_label.text = "Status: Connection failed"
 			status_label.add_theme_color_override("font_color", Color.RED)
