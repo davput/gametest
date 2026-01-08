@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://divq7c5k6xhpc"]
+
+[ext_resource type="Script" uid="uid://do413c1o50inb" path="res://scripts/player_platformer_jump.gd" id="1_g2els"]
+[ext_resource type="Texture2D" uid="uid://do0o2bkp36hrv" path="res://assets/sprites/WhatsApp_Image_2025-12-24_at_10.40.39_AM-removebg-preview.png" id="2_rnjyy"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4vge2"]
+radius = 29.5
+
+[node name="Node2D" type="Node2D"]
+
+[node name="player" type="CharacterBody2D" parent="."]
+script = ExtResource("1_g2els")
+move_speed = 150.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="player"]
+position = Vector2(0, -1)
+shape = SubResource("CircleShape2D_4vge2")
+
+[node name="Sprite2D" type="Sprite2D" parent="player"]
+position = Vector2(8.999998, -79)
+scale = Vector2(0.3874134, 0.3874134)
+texture = ExtResource("2_rnjyy")
+
+[node name="Camera2D" type="Camera2D" parent="player"]
+position = Vector2(9, -172)
+zoom = Vector2(1.5, 1.5)
+limit_left = 0
+limit_right = 1200

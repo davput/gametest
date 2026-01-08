@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://bvnak6n4xiq3t"]
+
+[ext_resource type="Script" path="res://scripts/virtual_joystick.gd" id="1_joystick"]
+[ext_resource type="Script" path="res://scripts/mobile_ui.gd" id="2_mobile_ui"]
+
+[node name="UI" type="CanvasLayer"]
+script = ExtResource("2_mobile_ui")
+
+[node name="VirtualJoystick" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+script = ExtResource("1_joystick")
+
+[node name="JumpButton" type="Button" parent="."]
+offset_right = 100.0
+offset_bottom = 100.0
+text = "Jump"
